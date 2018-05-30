@@ -2,6 +2,8 @@ package com.my.toolbox.network;
 
 import android.content.Context;
 
+import com.my.base.ui.BaseActivity;
+
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
@@ -11,8 +13,10 @@ import io.reactivex.disposables.Disposable;
 public abstract class BaseObserver<T> implements Observer<BaseResponse<T>> {
 
     private Context context;
-    public BaseObserver(){
+    public BaseObserver () {}
 
+    public BaseObserver(Context ctx){
+        this.context = ctx;
     }
 
 
@@ -22,9 +26,15 @@ public abstract class BaseObserver<T> implements Observer<BaseResponse<T>> {
     }
 
     private void requestStart() {
+        if (context != null && isShowLoading()) {
+            ((BaseActivity)context).showLoading(true);
+        }
     }
 
     private void requestEnd() {
+        if (context != null && isShowLoading()) {
+            ((BaseActivity)context).showLoading(false);
+        }
     }
 
     @Override
@@ -40,6 +50,7 @@ public abstract class BaseObserver<T> implements Observer<BaseResponse<T>> {
 
     @Override
     public void onError(Throwable e) {
+        requestEnd();
         failure(true, e.getMessage());
     }
 

@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.my.base.ui.BaseActivity;
 import com.my.toolbox.R;
 
 import butterknife.BindView;
@@ -19,7 +20,7 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * @author balmy
  */
-public class NetworkApiActivity extends AppCompatActivity implements View.OnClickListener {
+public class NetworkApiActivity extends BaseActivity implements View.OnClickListener {
 
     @BindView(R.id.btn_1)
     Button btn1;
@@ -31,21 +32,28 @@ public class NetworkApiActivity extends AppCompatActivity implements View.OnClic
     TextView tv2;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_netwrok_api);
-        ButterKnife.bind(this);
-
-        initViews();
+    public int getLayoutID() {
+        return R.layout.activity_netwrok_api;
     }
 
-    private void initViews() {
+    @Override
+    public void initViews() {
+        ButterKnife.bind(this);
+    }
+
+    @Override
+    public void registerListener() {
         btn1.setOnClickListener(this);
         btn2.setOnClickListener(this);
     }
 
     @Override
-    public void onClick(View view) {
+    public void initData() {
+
+    }
+
+    @Override
+    public void viewsClick(View view) {
         switch (view.getId()) {
             case R.id.btn_1:
                 requestOne();
@@ -62,7 +70,7 @@ public class NetworkApiActivity extends AppCompatActivity implements View.OnClic
         RetrofitFactory.getInstance().requestTest()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseObserver<TestBean>() {
+                .subscribe(new BaseObserver<TestBean>(NetworkApiActivity.this) {
                     @Override
                     protected void success(BaseResponse<TestBean> response) {
                         System.out.println(response.getContent().toString());
