@@ -28,11 +28,12 @@ public class RetrofitFactory {
 
     private static RetrofitService retrofitService = new Retrofit.Builder()
             .baseUrl(RetrofitService.BASE_URL)
-            // 添加Gson转换器
-            .addConverterFactory(GsonConverterFactory.create(new GsonBuilder()
-                    .setLenient()
-                    .create()
-            ))
+//            // 添加Gson转换器
+//            .addConverterFactory(GsonConverterFactory.create(new GsonBuilder()
+//                    .setLenient()
+//                    .create()
+//            ))
+            .addConverterFactory(SecurityConverterFactory.create())
             // 添加Retrofit到RxJava的转换器
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .client(httpClient)
