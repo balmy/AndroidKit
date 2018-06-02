@@ -14,22 +14,28 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * @author Create by yc.li09 on 2018/5/31.
  */
 public class SecurityConverterFactory extends Converter.Factory {
 
-    private GsonConverterFactory gsonConverterFactory;
-
-    private SecurityConverterFactory() {
-        gsonConverterFactory = GsonConverterFactory.create();
+    public static SecurityConverterFactory create() {
+        return create(new Gson());
     }
 
+    public static SecurityConverterFactory create(Gson gson) {
+        return new SecurityConverterFactory(gson);
+    }
 
-    public static SecurityConverterFactory create() {
-        return new SecurityConverterFactory();
+    private final Gson gson;
+
+    private SecurityConverterFactory(Gson gson) {
+        if (gson == null) {
+            throw new NullPointerException("gson == null");
+        }
+
+        this.gson = gson;
     }
 
     @Nullable
@@ -37,8 +43,8 @@ public class SecurityConverterFactory extends Converter.Factory {
     public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations,
                                                             Retrofit retrofit) {
         Log.d("lyc", "responseBodyConverter ");
-        return new SecurityResponseBodyConverter<>(
-                gsonConverterFactory.responseBodyConverter(type, annotations, retrofit));
+        TypeAdapter<?> adapter = gson.getAdapter(TypeToken.get(type));
+        return new SecurityResponseBodyConverter<>(gson, adapter);
     }
 
     @Nullable
@@ -46,16 +52,7 @@ public class SecurityConverterFactory extends Converter.Factory {
     public Converter<?, RequestBody> requestBodyConverter(Type type, Annotation[] parameterAnnotations,
                                                           Annotation[] methodAnnotations, Retrofit retrofit) {
         Log.d("lyc", "requestBodyConverter ");
-//        return gsonConverterFactory.requestBodyConverter(type, parameterAnnotations, methodAnnotations, retrofit);
-        Gson gson = new Gson();
-        TypeAdapter<?> adapter = new Gson().getAdapter(TypeToken.get(type));
+        TypeAdapter<?> adapter = gson.getAdapter(TypeToken.get(type));
         return new SecurityRequestBodyConverter<>(gson, adapter);
-    }
-
-    @Nullable
-    @Override
-    public Converter<?, String> stringConverter(Type type, Annotation[] annotations,
-                                                Retrofit retrofit) {
-        return gsonConverterFactory.stringConverter(type, annotations, retrofit);
     }
 }

@@ -4,15 +4,19 @@ package com.my.toolbox.network;
  * @author Create by yc.li09 on 2018/5/29.
  */
 public class BaseResponse<T> {
-    private int code;
-
-    public int getCode() {
-        return code;
+    public int getStatus() {
+        return status;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setStatus(int status) {
+        this.status = status;
     }
+
+    /**
+     * 0 成功  1 失败
+     */
+    private int status;
+
 
     public String getMsg() {
         return msg;

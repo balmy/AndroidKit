@@ -12,7 +12,7 @@ public interface RetrofitService {
 //    @GET("posts/1")
 //    Observable<BaseResponse<TestBean>> requestTest();
 
-    String BASE_URL = "http://10.101.44.53:3000/";
+    String BASE_URL = "http://192.168.18.8:3000/";
 
     @GET("test")
     Observable<BaseResponse<TestBean>> requestTest();

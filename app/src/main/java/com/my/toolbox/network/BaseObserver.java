@@ -13,7 +13,6 @@ import io.reactivex.disposables.Disposable;
 public abstract class BaseObserver<T> implements Observer<BaseResponse<T>> {
 
     private Context context;
-    public BaseObserver () {}
 
     public BaseObserver(Context ctx){
         this.context = ctx;
@@ -41,7 +40,7 @@ public abstract class BaseObserver<T> implements Observer<BaseResponse<T>> {
     public void onNext(BaseResponse<T> response) {
        // provided 0 is success
         requestEnd();
-        if (response.getCode() == 0) {
+        if (response.getStatus() == 0) {
            success(response);
         } else {
            failure(false, response.getMsg());

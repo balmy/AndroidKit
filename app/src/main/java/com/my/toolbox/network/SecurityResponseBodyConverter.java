@@ -2,9 +2,12 @@ package com.my.toolbox.network;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+
 import java.io.IOException;
 
-import okhttp3.MediaType;
 import okhttp3.ResponseBody;
 import retrofit2.Converter;
 
@@ -13,19 +16,22 @@ import retrofit2.Converter;
  */
 public class SecurityResponseBodyConverter<T> implements Converter<ResponseBody, T> {
 
-    private static final MediaType MEDIA_TYPE = MediaType.parse("application/json; charset=UTF-8");
-    private Converter<ResponseBody, T> gsonConverter;
-    public SecurityResponseBodyConverter(Converter<ResponseBody, T> responseBodyConverter) {
-        this.gsonConverter = responseBodyConverter;
+    private final Gson gson;
+    private final TypeAdapter<T> adapter;
+
+    public SecurityResponseBodyConverter(Gson gson, TypeAdapter<T> adapter) {
+        this.gson = gson;
+        this.adapter = adapter;
     }
 
     @Override
     public T convert(ResponseBody value) throws IOException {
-//        String rawString = value.string();
-//        value.close();
-//        String decryptStr = decryptor.decrypt(rawString);
-//        ResponseBody decryptBody = ResponseBody.create(MEDIA_TYPE,decryptStr);
         Log.d("lyc", "SecurityResponseBodyConverter ");
-        return gsonConverter.convert(value);
+        JsonReader jsonReader = gson.newJsonReader(value.charStream());
+        try {
+            return adapter.read(jsonReader);
+        } finally {
+            value.close();
+        }
     }
 }
