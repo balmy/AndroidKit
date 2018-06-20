@@ -1,7 +1,5 @@
 package com.my.toolbox.network;
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -86,20 +84,20 @@ public class NetworkApiActivity extends BaseActivity implements View.OnClickList
     }
 
     private void requestOne() {
-        RetrofitFactory.getInstance().requestTest()
+        RetrofitFactory.getInstance().requestTestParam("1")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<BaseResponse<TestBean>>() {
+                .subscribe(new Observer<Object>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                         //为请求提供一个取消的手段
                     }
 
                     @Override
-                    public void onNext(BaseResponse<TestBean> value) {
+                    public void onNext(Object value) {
                         //请求成功
-                        System.out.println(value.getContent().toString());
-                        tv1.setText(value.getContent().toString());
+//                        System.out.println(value.getContent().toString());
+                        tv1.setText(value.toString());
                     }
 
                     @Override

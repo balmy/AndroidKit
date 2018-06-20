@@ -19,7 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".imageloader.ImageLoadActivity" />
-        <activity android:name=".network.NetworkApiActivity"></activity>
+        <activity android:name=".network.NetworkApiActivity" />
+        <activity android:name=".exlist.ListExActivity"></activity>
     </application>
 
 </manifest>

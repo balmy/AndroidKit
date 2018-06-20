@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.my.toolbox.exlist.ListExActivity;
 import com.my.toolbox.imageloader.ImageLoadActivity;
 import com.my.toolbox.network.NetworkApiActivity;
 
@@ -26,9 +27,9 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.my_list)
     RecyclerView myList;
 
-    private static final Class<?>[] ACTIVITY = {NetworkApiActivity.class, ImageLoadActivity.class};
-    private static final String[] TITLE = {"网络测试","图片加载测试"};
-    private static final int[] IMG = {R.mipmap.ic_launcher, R.mipmap.ic_launcher};
+    private static final Class<?>[] ACTIVITY = {NetworkApiActivity.class, ImageLoadActivity.class, ListExActivity.class};
+    private static final String[] TITLE = {"网络测试","图片加载测试", "列表测试"};
+    private static final int[] IMG = {R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher};
     private ArrayList<HomeItem> mDataList;
 
     @Override
