@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MyAndroidToolbox</string>
+    <string name="title_activity_update">UpdateActivity</string>
 </resources>
