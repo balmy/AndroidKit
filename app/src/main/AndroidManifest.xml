@@ -25,6 +25,7 @@
             android:name=".update.UpdateActivity"
             android:label="@string/title_activity_update"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".timer.TimerTestActivity"></activity>
     </application>
 
 </manifest>
